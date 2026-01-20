@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linear Regression App</title>
+
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #74ebd5, #acb6e5);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            width: 350px;
+            border-radius: 12px;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 25px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>Linear Regression Prediction</h2>
+
+        <form action="/predict" method="post">
+            <input type="number"
+                   name="value"
+                   placeholder="Enter X value"
+                   required
+                   onfocus="clearResult()"
+                   oninput="clearResult()">
+            <br>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if result %}
+            <div class="result" id="result">
+                Prediction: {{ result }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function clearResult() {
+            const result = document.getElementById("result");
+            if (result) {
+                result.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
