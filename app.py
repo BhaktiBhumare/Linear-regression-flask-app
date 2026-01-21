@@ -1,22 +1,22 @@
-from flask import Flask, request, render_template
 import pickle
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+# Load model and scaler
 model = pickle.load(open("model.pkl", "rb"))
+scaler = pickle.load(open("scaler.pkl", "rb"))
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("index.html")
+    prediction = None
 
-@app.route("/predict", methods=["POST"])
-def predict():
-    value = float(request.form["value"])
-    prediction = model.predict([[value]])
-    return render_template("index.html", result=prediction[0])
+    if request.method == "POST":
+        x = float(request.form["x"])
+        x_scaled = scaler.transform([[x]])
+        prediction = model.predict(x_scaled)[0]
+
+    return render_template("index.html", prediction=prediction)
 
 if __name__ == "__main__":
-    import os
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
-
+    app.run()
